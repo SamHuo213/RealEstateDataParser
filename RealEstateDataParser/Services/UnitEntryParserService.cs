@@ -9,37 +9,38 @@ namespace SalesParser.Services {
         private const string UpdatedString = "updated";
         private const int EntryPropertyCount = 138;
 
+        private delegate bool FilterPredicate(UnitEntry unitEntry);
+
         public UnitEntryParserService() {
         }
 
         public IEnumerable<UnitEntry> ParseSoldUnitEntries(IEnumerable<string> rawEntries, DateTime? filterDate = null) {
-            var processedEntries = new List<UnitEntry>();
-            foreach (var entry in rawEntries) {
-                if (string.IsNullOrEmpty(entry)) {
-                    continue;
-                }
+            return ParseUnitEntriesBoilerPlate(
+                rawEntries,
+                parseSold: true,
+                unitEntry => filterDate?.Date == unitEntry.ReportDate
+                );
+        }
 
-                var firstWord = entry.Substring(0, 7).ToLower();
-                if (firstWord == UpdatedString) {
-                    continue;
-                }
-
-                var unitEntry = ParseUnitEntry(entry, true);
-                if (unitEntry == null) {
-                    continue;
-                }
-
-                if (filterDate?.Date != unitEntry.ReportDate) {
-                    continue;
-                }
-
-                processedEntries.Add(unitEntry);
-            }
-
-            return processedEntries;
+        public IEnumerable<UnitEntry> ParseMontlyAccumulatedSoldUnitEntries(IEnumerable<string> rawEntries, DateTime? filterDate = null) {
+            return ParseUnitEntriesBoilerPlate(
+                rawEntries,
+                parseSold: true,
+                unitEntry =>
+                    filterDate?.Date.Month == unitEntry.ReportDate?.Month &&
+                    filterDate?.Date.Year == unitEntry.ReportDate?.Year
+                );
         }
 
         public IEnumerable<UnitEntry> ParseActiveUnitEntries(IEnumerable<string> rawEntries) {
+            return ParseUnitEntriesBoilerPlate(
+                rawEntries,
+                parseSold: false,
+                unitEntry => true
+                );
+        }
+
+        private IEnumerable<UnitEntry> ParseUnitEntriesBoilerPlate(IEnumerable<string> rawEntries, bool parseSold, FilterPredicate filterPredicate) {
             var processedEntries = new List<UnitEntry>();
             foreach (var entry in rawEntries) {
                 if (string.IsNullOrEmpty(entry)) {
@@ -51,8 +52,12 @@ namespace SalesParser.Services {
                     continue;
                 }
 
-                var unitEntry = ParseUnitEntry(entry, false);
+                var unitEntry = ParseUnitEntry(entry, parseSold);
                 if (unitEntry == null) {
+                    continue;
+                }
+
+                if (!filterPredicate(unitEntry)) {
                     continue;
                 }
 

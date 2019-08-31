@@ -29,17 +29,25 @@ namespace SalesParser {
         private void RunInternal(DateTime reportDate) {
             var allLines = fileService.ReadAllLines(reportDate);
             var soldUnitEntriesDo = unitEntryParserService.ParseSoldUnitEntries(allLines, reportDate);
+            var monthlyAccumulatedsoldUnitEntriesDo = unitEntryParserService.ParseMontlyAccumulatedSoldUnitEntries(allLines, reportDate);
             var activeUnitEntriesDo = unitEntryParserService.ParseActiveUnitEntries(allLines);
 
             var boards = (Board[])Enum.GetValues(typeof(Board));
             foreach (var board in boards.Where(x => x != Board.Unknown)) {
-                var boardReport = boardReportService.GenerateReports(board, soldUnitEntriesDo, activeUnitEntriesDo);
+                var boardReport = boardReportService.GenerateReports(board, soldUnitEntriesDo, monthlyAccumulatedsoldUnitEntriesDo, activeUnitEntriesDo);
 
                 var reportLines = InventoryCityReportsToString(boardReport.InventoryCityReports);
                 reportLines = InventoryMixReportsToString(boardReport.InventoryMixReports).Concat(reportLines);
                 reportLines = InventoryPricePointReportsByCityToString(boardReport.InventoryPricePointByCitiesReports).Concat(reportLines);
                 reportLines = InventoryPricePointReportsByTypeToString(boardReport.InventoryPricePointByTypeReports).Concat(reportLines);
                 reportLines = InventoryPricePointReportsToString(boardReport.InventoryPricePointReports).Concat(reportLines);
+
+                reportLines = MonthlyAccumulatedSalesCityReportsToString(boardReport.MonthlyAccumulatedCitySalesReports).Concat(reportLines);
+                reportLines = MonthlyAccumulatedSalesMixReportsToString(boardReport.MonthlyAccumulatedSaleMixReports).Concat(reportLines);
+                reportLines = MonthlyAccumulatedSalesDateReportsToString(boardReport.MonthlyAccumulatedSaleDateReports).Concat(reportLines);
+                reportLines = MonthlyAccumulatedSalesPricePointReportsByCityToString(boardReport.MonthlyAccumulatedSalesPricePointByCitiesReports).Concat(reportLines);
+                reportLines = MonthlyAccumulatedSalesPricePointReportsByTypeToString(boardReport.MonthlyAccumulatedSalesPricePointByTypeReports).Concat(reportLines);
+                reportLines = MonthlyAccumulatedSalesPricePointReportsToString(boardReport.MonthlyAccumulatedSalesPricePointReports).Concat(reportLines);
 
                 reportLines = SalesCityReportsToString(boardReport.CitySalesReports).Concat(reportLines);
                 reportLines = SalesMixReportsToString(boardReport.SaleMixReports).Concat(reportLines);
@@ -48,6 +56,7 @@ namespace SalesParser {
                 reportLines = SalesPricePointReportsByTypeToString(boardReport.SalesPricePointByTypeReports).Concat(reportLines);
                 reportLines = SalesPricePointReportsToString(boardReport.SalesPricePointReports).Concat(reportLines);
 
+                reportLines = MonthlyAccumulatedSalesToString(boardReport.MonthlyAccumulatedTotalSales).Concat(reportLines);
                 reportLines = TotalSalesToString(boardReport.TotalSales).Concat(reportLines);
                 reportLines = TotalInventoryToString(boardReport.TotalInventory).Concat(reportLines);
 
@@ -59,6 +68,17 @@ namespace SalesParser {
             var lines = new List<string> {
                 "",
                 "...Sales by City...",
+                ""
+            };
+
+            return lines
+                   .Concat(CityReportsToStringBoilerPlate(reports));
+        }
+
+        private IEnumerable<string> MonthlyAccumulatedSalesCityReportsToString(IEnumerable<CityReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Monthly Sales by City...",
                 ""
             };
 
@@ -91,6 +111,17 @@ namespace SalesParser {
             var lines = new List<string> {
                 "",
                 "...Sales Mix...",
+                ""
+            };
+
+            return lines
+                .Concat(PropertyTypeMixReportsToStringBoilerPlate(reports));
+        }
+
+        private IEnumerable<string> MonthlyAccumulatedSalesMixReportsToString(IEnumerable<PropertyTypeMixReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Monthly Accumulated Sales Mix...",
                 ""
             };
 
@@ -134,6 +165,21 @@ namespace SalesParser {
             return lines;
         }
 
+        private IEnumerable<string> MonthlyAccumulatedSalesDateReportsToString(IEnumerable<SaleDateReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Exact Monthly Accumulated Sales Date...",
+                ""
+            };
+
+            foreach (var report in reports) {
+                var reportMessage = $"{report.SaleDate}, {report.SaleCount}";
+                lines.Add(reportMessage);
+            }
+
+            return lines;
+        }
+
         private IEnumerable<string> SalesPricePointReportsByCityToString(IEnumerable<PricePointByKeyReportEntry> reports) {
             var lines = new List<string> {
                 "",
@@ -149,6 +195,28 @@ namespace SalesParser {
             var lines = new List<string> {
                 "",
                 "...Sales Price Point By Type...",
+                ""
+            };
+
+            return lines
+                .Concat(PricePointReportsByCityToStringBoilerPlate(reports));
+        }
+
+        private IEnumerable<string> MonthlyAccumulatedSalesPricePointReportsByCityToString(IEnumerable<PricePointByKeyReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Monthly Accumulated Sales Price Point By City...",
+                ""
+            };
+
+            return lines
+                .Concat(PricePointReportsByCityToStringBoilerPlate(reports));
+        }
+
+        private IEnumerable<string> MonthlyAccumulatedSalesPricePointReportsByTypeToString(IEnumerable<PricePointByKeyReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Monthly Accumulated Sales Price Point By Type...",
                 ""
             };
 
@@ -204,6 +272,17 @@ namespace SalesParser {
                 .Concat(PricePointReportsToStringBoilerPlate(reports));
         }
 
+        private IEnumerable<string> MonthlyAccumulatedSalesPricePointReportsToString(IEnumerable<PricePointReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Monthly Accumulated Sales Price Point Report...",
+                ""
+            };
+
+            return lines
+                .Concat(PricePointReportsToStringBoilerPlate(reports));
+        }
+
         private IEnumerable<string> InventoryPricePointReportsToString(IEnumerable<PricePointReportEntry> reports) {
             var lines = new List<string> {
                 "",
@@ -229,6 +308,14 @@ namespace SalesParser {
             return new List<string> {
                 "",
                 "...Total Sales...",
+                $"{totalSales}"
+            };
+        }
+
+        private IEnumerable<string> MonthlyAccumulatedSalesToString(int totalSales) {
+            return new List<string> {
+                "",
+                "...Monthly Accumulated Sales...",
                 $"{totalSales}"
             };
         }

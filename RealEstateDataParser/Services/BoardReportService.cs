@@ -17,11 +17,16 @@ namespace SalesParser.Services {
             pricePointReportService = new PricePointReportService();
         }
 
-        public BoardReport GenerateReports(Board? board, IEnumerable<UnitEntry> soldUnitEntries, IEnumerable<UnitEntry> inventoryUnitEntries) {
+        public BoardReport GenerateReports(Board? board, IEnumerable<UnitEntry> soldUnitEntries, IEnumerable<UnitEntry> monthlyAccumulatedSoldUnitEntries, IEnumerable<UnitEntry> inventoryUnitEntries) {
             var filteredSoldUnitEntries = soldUnitEntries;
+            var filteredMonthlyAccumulatedSoldUnitEntries = monthlyAccumulatedSoldUnitEntries;
             var filteredInventoryUnitEntires = inventoryUnitEntries;
+
             if (board.HasValue) {
                 filteredSoldUnitEntries = filteredSoldUnitEntries
+                    .Where(x => x.Board == board);
+
+                filteredMonthlyAccumulatedSoldUnitEntries = filteredMonthlyAccumulatedSoldUnitEntries
                     .Where(x => x.Board == board);
 
                 filteredInventoryUnitEntires = filteredInventoryUnitEntires
@@ -36,6 +41,15 @@ namespace SalesParser.Services {
                 SalesPricePointByTypeReports = pricePointReportService.GetSoldPricePointByTypeReports(filteredSoldUnitEntries),
                 SalesPricePointReports = pricePointReportService.GetSoldPricePointReports(filteredSoldUnitEntries),
                 TotalSales = filteredSoldUnitEntries.Count(),
+
+                MonthlyAccumulatedCitySalesReports = cityReportService.GetCityReports(filteredMonthlyAccumulatedSoldUnitEntries),
+                MonthlyAccumulatedSaleDateReports = salesDateReportService.GetSalesDateReports(filteredMonthlyAccumulatedSoldUnitEntries),
+                MonthlyAccumulatedSaleMixReports = propertyTypeMixReportService.GetPropertyTypeMixReports(filteredMonthlyAccumulatedSoldUnitEntries),
+                MonthlyAccumulatedSalesPricePointByCitiesReports = pricePointReportService.GetSoldPricePointByCityReports(filteredMonthlyAccumulatedSoldUnitEntries),
+                MonthlyAccumulatedSalesPricePointByTypeReports = pricePointReportService.GetSoldPricePointByTypeReports(filteredMonthlyAccumulatedSoldUnitEntries),
+                MonthlyAccumulatedSalesPricePointReports = pricePointReportService.GetSoldPricePointReports(filteredMonthlyAccumulatedSoldUnitEntries),
+                MonthlyAccumulatedTotalSales = filteredMonthlyAccumulatedSoldUnitEntries.Count(),
+
                 InventoryCityReports = cityReportService.GetCityReports(filteredInventoryUnitEntires),
                 InventoryMixReports = propertyTypeMixReportService.GetPropertyTypeMixReports(filteredInventoryUnitEntires),
                 InventoryPricePointByCitiesReports = pricePointReportService.GetInventoryPricePointByCityReports(filteredInventoryUnitEntires),

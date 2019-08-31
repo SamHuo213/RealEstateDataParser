@@ -16,6 +16,20 @@ namespace SalesParser.DataObjects {
 
         public int TotalSales { get; set; }
 
+        public IEnumerable<CityReportEntry> MonthlyAccumulatedCitySalesReports { get; set; }
+
+        public IEnumerable<SaleDateReportEntry> MonthlyAccumulatedSaleDateReports { get; set; }
+
+        public IEnumerable<PropertyTypeMixReportEntry> MonthlyAccumulatedSaleMixReports { get; set; }
+
+        public IEnumerable<PricePointByKeyReportEntry> MonthlyAccumulatedSalesPricePointByCitiesReports { get; set; }
+
+        public IEnumerable<PricePointByKeyReportEntry> MonthlyAccumulatedSalesPricePointByTypeReports { get; set; }
+
+        public IEnumerable<PricePointReportEntry> MonthlyAccumulatedSalesPricePointReports { get; set; }
+
+        public int MonthlyAccumulatedTotalSales { get; set; }
+
         public IEnumerable<CityReportEntry> InventoryCityReports { get; set; }
 
         public IEnumerable<PropertyTypeMixReportEntry> InventoryMixReports { get; set; }
