@@ -8,7 +8,9 @@ namespace SalesParser.DataObjects {
 
         public IEnumerable<PropertyTypeMixReportEntry> SaleMixReports { get; set; }
 
-        public IEnumerable<PricePointByCityReportEntry> SalesPricePointByCitiesReports { get; set; }
+        public IEnumerable<PricePointByKeyReportEntry> SalesPricePointByCitiesReports { get; set; }
+
+        public IEnumerable<PricePointByKeyReportEntry> SalesPricePointByTypeReports { get; set; }
 
         public IEnumerable<PricePointReportEntry> SalesPricePointReports { get; set; }
 
@@ -18,7 +20,9 @@ namespace SalesParser.DataObjects {
 
         public IEnumerable<PropertyTypeMixReportEntry> InventoryMixReports { get; set; }
 
-        public IEnumerable<PricePointByCityReportEntry> InventoryPricePointByCitiesReports { get; set; }
+        public IEnumerable<PricePointByKeyReportEntry> InventoryPricePointByCitiesReports { get; set; }
+
+        public IEnumerable<PricePointByKeyReportEntry> InventoryPricePointByTypeReports { get; set; }
 
         public IEnumerable<PricePointReportEntry> InventoryPricePointReports { get; set; }
 

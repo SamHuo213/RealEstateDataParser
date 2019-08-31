@@ -8,7 +8,7 @@ namespace SalesParser.Services {
         public PricePointReportService() {
         }
 
-        public IEnumerable<PricePointByCityReportEntry> GetSoldPricePointByCityReports(IEnumerable<UnitEntry> UnitEntires) {
+        public IEnumerable<PricePointByKeyReportEntry> GetSoldPricePointByCityReports(IEnumerable<UnitEntry> UnitEntires) {
             var groupedByCity = UnitEntires
                 .GroupBy(x => x.City)
                 .Select(x => new {
@@ -18,8 +18,24 @@ namespace SalesParser.Services {
                 .OrderBy(x => x.City);
 
             return groupedByCity
-                .Select(x => new PricePointByCityReportEntry {
-                    City = x.City,
+                .Select(x => new PricePointByKeyReportEntry {
+                    Key = x.City,
+                    PricePointReports = GetSoldPricePointReports(x.Units)
+                });
+        }
+
+        public IEnumerable<PricePointByKeyReportEntry> GetSoldPricePointByTypeReports(IEnumerable<UnitEntry> UnitEntires) {
+            var groupedByCity = UnitEntires
+                .GroupBy(x => x.Type)
+                .Select(x => new {
+                    Type = x.Key,
+                    Units = x
+                })
+                .OrderBy(x => x.Type);
+
+            return groupedByCity
+                .Select(x => new PricePointByKeyReportEntry {
+                    Key = x.Type,
                     PricePointReports = GetSoldPricePointReports(x.Units)
                 });
         }
@@ -34,7 +50,7 @@ namespace SalesParser.Services {
                 });
         }
 
-        public IEnumerable<PricePointByCityReportEntry> GetInventoryPricePointByCityReports(IEnumerable<UnitEntry> UnitEntires) {
+        public IEnumerable<PricePointByKeyReportEntry> GetInventoryPricePointByCityReports(IEnumerable<UnitEntry> UnitEntires) {
             var groupedByCity = UnitEntires
                 .GroupBy(x => x.City)
                 .Select(x => new {
@@ -44,8 +60,24 @@ namespace SalesParser.Services {
                 .OrderBy(x => x.City);
 
             return groupedByCity
-                .Select(x => new PricePointByCityReportEntry {
-                    City = x.City,
+                .Select(x => new PricePointByKeyReportEntry {
+                    Key = x.City,
+                    PricePointReports = GetInventoryPricePointReports(x.Units)
+                });
+        }
+
+        public IEnumerable<PricePointByKeyReportEntry> GetInventoryPricePointByTypeReports(IEnumerable<UnitEntry> UnitEntires) {
+            var groupedByCity = UnitEntires
+                .GroupBy(x => x.Type)
+                .Select(x => new {
+                    Type = x.Key,
+                    Units = x
+                })
+                .OrderBy(x => x.Type);
+
+            return groupedByCity
+                .Select(x => new PricePointByKeyReportEntry {
+                    Key = x.Type,
                     PricePointReports = GetInventoryPricePointReports(x.Units)
                 });
         }

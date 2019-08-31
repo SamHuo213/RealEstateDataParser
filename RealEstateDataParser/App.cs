@@ -38,12 +38,14 @@ namespace SalesParser {
                 var reportLines = InventoryCityReportsToString(boardReport.InventoryCityReports);
                 reportLines = InventoryMixReportsToString(boardReport.InventoryMixReports).Concat(reportLines);
                 reportLines = InventoryPricePointReportsByCityToString(boardReport.InventoryPricePointByCitiesReports).Concat(reportLines);
+                reportLines = InventoryPricePointReportsByTypeToString(boardReport.InventoryPricePointByTypeReports).Concat(reportLines);
                 reportLines = InventoryPricePointReportsToString(boardReport.InventoryPricePointReports).Concat(reportLines);
 
                 reportLines = SalesCityReportsToString(boardReport.CitySalesReports).Concat(reportLines);
                 reportLines = SalesMixReportsToString(boardReport.SaleMixReports).Concat(reportLines);
                 reportLines = SalesDateReportsToString(boardReport.SaleDateReports).Concat(reportLines);
                 reportLines = SalesPricePointReportsByCityToString(boardReport.SalesPricePointByCitiesReports).Concat(reportLines);
+                reportLines = SalesPricePointReportsByTypeToString(boardReport.SalesPricePointByTypeReports).Concat(reportLines);
                 reportLines = SalesPricePointReportsToString(boardReport.SalesPricePointReports).Concat(reportLines);
 
                 reportLines = TotalSalesToString(boardReport.TotalSales).Concat(reportLines);
@@ -132,7 +134,7 @@ namespace SalesParser {
             return lines;
         }
 
-        private IEnumerable<string> SalesPricePointReportsByCityToString(IEnumerable<PricePointByCityReportEntry> reports) {
+        private IEnumerable<string> SalesPricePointReportsByCityToString(IEnumerable<PricePointByKeyReportEntry> reports) {
             var lines = new List<string> {
                 "",
                 "...Sales Price Point By City...",
@@ -143,7 +145,18 @@ namespace SalesParser {
                 .Concat(PricePointReportsByCityToStringBoilerPlate(reports));
         }
 
-        private IEnumerable<string> InventoryPricePointReportsByCityToString(IEnumerable<PricePointByCityReportEntry> reports) {
+        private IEnumerable<string> SalesPricePointReportsByTypeToString(IEnumerable<PricePointByKeyReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Sales Price Point By Type...",
+                ""
+            };
+
+            return lines
+                .Concat(PricePointReportsByCityToStringBoilerPlate(reports));
+        }
+
+        private IEnumerable<string> InventoryPricePointReportsByCityToString(IEnumerable<PricePointByKeyReportEntry> reports) {
             var lines = new List<string> {
                 "",
                 "...Inventory Price Point By City...",
@@ -154,10 +167,21 @@ namespace SalesParser {
                 .Concat(PricePointReportsByCityToStringBoilerPlate(reports));
         }
 
-        private IEnumerable<string> PricePointReportsByCityToStringBoilerPlate(IEnumerable<PricePointByCityReportEntry> reports) {
+        private IEnumerable<string> InventoryPricePointReportsByTypeToString(IEnumerable<PricePointByKeyReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Inventory Price Point By Type...",
+                ""
+            };
+
+            return lines
+                .Concat(PricePointReportsByCityToStringBoilerPlate(reports));
+        }
+
+        private IEnumerable<string> PricePointReportsByCityToStringBoilerPlate(IEnumerable<PricePointByKeyReportEntry> reports) {
             var lines = new List<string>();
             foreach (var cityReport in reports) {
-                lines.Add(cityReport.City);
+                lines.Add(cityReport.Key);
                 lines.Add(" ");
                 foreach (var pricePointReport in cityReport.PricePointReports) {
                     var reportMessage = $"{pricePointReport.PricePoint}, {pricePointReport.Count}";

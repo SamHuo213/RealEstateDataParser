@@ -33,11 +33,13 @@ namespace SalesParser.Services {
                 SaleMixReports = propertyTypeMixReportService.GetPropertyTypeMixReports(filteredSoldUnitEntries),
                 SaleDateReports = salesDateReportService.GetSalesDateReports(filteredSoldUnitEntries),
                 SalesPricePointByCitiesReports = pricePointReportService.GetSoldPricePointByCityReports(filteredSoldUnitEntries),
+                SalesPricePointByTypeReports = pricePointReportService.GetSoldPricePointByTypeReports(filteredSoldUnitEntries),
                 SalesPricePointReports = pricePointReportService.GetSoldPricePointReports(filteredSoldUnitEntries),
                 TotalSales = filteredSoldUnitEntries.Count(),
                 InventoryCityReports = cityReportService.GetCityReports(filteredInventoryUnitEntires),
                 InventoryMixReports = propertyTypeMixReportService.GetPropertyTypeMixReports(filteredInventoryUnitEntires),
                 InventoryPricePointByCitiesReports = pricePointReportService.GetInventoryPricePointByCityReports(filteredInventoryUnitEntires),
+                InventoryPricePointByTypeReports = pricePointReportService.GetInventoryPricePointByTypeReports(filteredInventoryUnitEntires),
                 InventoryPricePointReports = pricePointReportService.GetInventoryPricePointReports(filteredInventoryUnitEntires),
                 TotalInventory = filteredInventoryUnitEntires.Count()
             };
