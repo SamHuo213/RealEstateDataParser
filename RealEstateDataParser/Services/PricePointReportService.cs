@@ -61,7 +61,12 @@ namespace SalesParser.Services {
         }
 
         private string PricePointKeyFormate(double rangeStart, double rangeEnd) {
-            return $"{string.Format("{0:n0}", rangeStart)} - {string.Format("{0:n0}", rangeEnd)}";
+            return $"{FormatRange(rangeStart)} - {FormatRange(rangeEnd)}";
+        }
+
+        private string FormatRange(double range) {
+            var rangeString = string.Format("{0:n0}", range);
+            return rangeString.Replace(",", " ");
         }
     }
 }

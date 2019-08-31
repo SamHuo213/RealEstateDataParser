@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace SalesParser.Services {
-
     public class FileService {
-
         public FileService() {
         }
 
