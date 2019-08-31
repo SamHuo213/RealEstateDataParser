@@ -3,3 +3,5 @@
 ################################################################################
 
 /RealEstateDataParser/bin/Debug
+/RealEstateDataParser/Data
+/RealEstateDataParser/obj
