@@ -8,4 +8,10 @@
     <AssemblyName>SalesParser</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
 </Project>
