@@ -1,4 +1,5 @@
-﻿using SalesParser.DataObjects;
+﻿using RealEstateDataParser.Maps;
+using SalesParser.DataObjects;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace SalesParser.Services {
 
         public IEnumerable<PropertyTypeMixReportEntry> GetPropertyTypeMixReports(IEnumerable<UnitEntry> UnitEntires) {
             var propertyTypeMixReport = UnitEntires
-                .GroupBy(x => x.Type)
+                .GroupBy(x => PropertyTypeKeyMap.GetPropertyTypeKey(x.Type))
                 .Select(x => new PropertyTypeMixReportEntry() {
                     PropertyType = x.Key,
                     Count = x.Count()

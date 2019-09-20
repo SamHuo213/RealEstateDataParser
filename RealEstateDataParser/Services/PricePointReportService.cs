@@ -1,4 +1,5 @@
-﻿using SalesParser.DataObjects;
+﻿using RealEstateDataParser.Maps;
+using SalesParser.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SalesParser.Services {
 
         public IEnumerable<PricePointByKeyReportEntry> GetSoldPricePointByCityReports(IEnumerable<UnitEntry> UnitEntires) {
             var groupedByCity = UnitEntires
-                .GroupBy(x => x.City)
+                .GroupBy(x => CityKeyMap.GetCityKey(x.City))
                 .Select(x => new {
                     City = x.Key,
                     Units = x
@@ -26,7 +27,7 @@ namespace SalesParser.Services {
 
         public IEnumerable<PricePointByKeyReportEntry> GetSoldPricePointByTypeReports(IEnumerable<UnitEntry> UnitEntires) {
             var groupedByCity = UnitEntires
-                .GroupBy(x => x.Type)
+                .GroupBy(x => PropertyTypeKeyMap.GetPropertyTypeKey(x.Type))
                 .Select(x => new {
                     Type = x.Key,
                     Units = x
@@ -52,7 +53,7 @@ namespace SalesParser.Services {
 
         public IEnumerable<PricePointByKeyReportEntry> GetInventoryPricePointByCityReports(IEnumerable<UnitEntry> UnitEntires) {
             var groupedByCity = UnitEntires
-                .GroupBy(x => x.City)
+                .GroupBy(x => CityKeyMap.GetCityKey(x.City))
                 .Select(x => new {
                     City = x.Key,
                     Units = x
@@ -68,7 +69,7 @@ namespace SalesParser.Services {
 
         public IEnumerable<PricePointByKeyReportEntry> GetInventoryPricePointByTypeReports(IEnumerable<UnitEntry> UnitEntires) {
             var groupedByCity = UnitEntires
-                .GroupBy(x => x.Type)
+                .GroupBy(x => PropertyTypeKeyMap.GetPropertyTypeKey(x.Type))
                 .Select(x => new {
                     Type = x.Key,
                     Units = x
