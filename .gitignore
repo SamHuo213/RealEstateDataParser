@@ -9,3 +9,8 @@
 /.vs/RealEstateDataParser/v16
 /RealEstateDataParser/Properties
 /.vs/RealEstateDataParser/config/applicationhost.config
+/TestParser/bin/Debug/netcoreapp2.2/Data
+/TestParser/bin/Debug/netcoreapp2.2
+/TestParser/Data
+/TestParser/obj/Debug/netcoreapp2.2
+/TestParser/obj
