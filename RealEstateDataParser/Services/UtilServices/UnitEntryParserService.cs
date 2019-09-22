@@ -86,6 +86,7 @@ namespace SalesParser.Services {
                 Type = entryArray[9],
                 SoldPrice = GetSoldPrice(entryArray[32]),
                 FinalAskingPrice = Double.Parse(entryArray[7]) * 1000,
+                OriginalAskingPrice = Double.Parse(entryArray[28]) * 1000,
                 SoldDate = GetDate(entryArray[33]),
                 ReportDate = GetDate(entryArray[34]),
                 City = entryArray[134],

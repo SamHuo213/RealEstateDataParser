@@ -13,6 +13,8 @@ namespace SalesParser.DataObjects {
 
         public double FinalAskingPrice { get; set; }
 
+        public double OriginalAskingPrice { get; set; }
+
         public DateTime? SoldDate { get; set; }
 
         public DateTime? ReportDate { get; set; }

@@ -15,6 +15,8 @@ namespace SalesParser.DataObjects {
 
         public IEnumerable<PricePointReportEntry> SalesPricePointReports { get; set; }
 
+        public IEnumerable<OverUnderReportEntry> SalesOverUnderReports { get; set; }
+
         public int TotalSales { get; set; }
 
         public IEnumerable<CityReportEntry> MonthlyAccumulatedCitySalesReports { get; set; }
@@ -28,6 +30,8 @@ namespace SalesParser.DataObjects {
         public IEnumerable<PricePointByKeyReportEntry> MonthlyAccumulatedSalesPricePointByTypeReports { get; set; }
 
         public IEnumerable<PricePointReportEntry> MonthlyAccumulatedSalesPricePointReports { get; set; }
+
+        public IEnumerable<OverUnderReportEntry> MonthlyAccumulatedSalesOverUnderReports { get; set; }
 
         public int MonthlyAccumulatedTotalSales { get; set; }
 

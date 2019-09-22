@@ -1,4 +1,5 @@
 ﻿using RealEstateDataParser.DataObjects;
+using RealEstateDataParser.Maps;
 using SalesParser.DataObjects;
 using SalesParser.Enums;
 using SalesParser.Services;
@@ -50,6 +51,7 @@ namespace SalesParser {
                 reportLines = MonthlyAccumulatedSalesPricePointReportsByCityToString(boardReport.MonthlyAccumulatedSalesPricePointByCitiesReports).Concat(reportLines);
                 reportLines = MonthlyAccumulatedSalesPricePointReportsByTypeToString(boardReport.MonthlyAccumulatedSalesPricePointByTypeReports).Concat(reportLines);
                 reportLines = MonthlyAccumulatedSalesPricePointReportsToString(boardReport.MonthlyAccumulatedSalesPricePointReports).Concat(reportLines);
+                reportLines = MonthlyAccumulatedSalesOverUnderReportsToString(boardReport.MonthlyAccumulatedSalesOverUnderReports).Concat(reportLines);
 
                 reportLines = SalesCityReportsToString(boardReport.CitySalesReports).Concat(reportLines);
                 reportLines = SalesMixReportsToString(boardReport.SaleMixReports).Concat(reportLines);
@@ -57,6 +59,7 @@ namespace SalesParser {
                 reportLines = SalesPricePointReportsByCityToString(boardReport.SalesPricePointByCitiesReports).Concat(reportLines);
                 reportLines = SalesPricePointReportsByTypeToString(boardReport.SalesPricePointByTypeReports).Concat(reportLines);
                 reportLines = SalesPricePointReportsToString(boardReport.SalesPricePointReports).Concat(reportLines);
+                reportLines = SalesOverUnderReportsToString(boardReport.SalesOverUnderReports).Concat(reportLines);
 
                 reportLines = MonthlyAccumulatedSalesToString(boardReport.MonthlyAccumulatedTotalSales).Concat(reportLines);
                 reportLines = TotalSalesToString(boardReport.TotalSales).Concat(reportLines);
@@ -315,6 +318,38 @@ namespace SalesParser {
             var lines = new List<string>();
             foreach (var pricePointReport in reports) {
                 var reportMessage = $"{pricePointReport.PricePoint}, {pricePointReport.Count}";
+                lines.Add(reportMessage);
+            }
+
+            return lines;
+        }
+
+        private IEnumerable<string> SalesOverUnderReportsToString(IEnumerable<OverUnderReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Sold Over Or Under Original Asking Price Report...",
+                ""
+            };
+
+            return lines
+                .Concat(SalesOverUnderReportsToStringBoilderPlate(reports));
+        }
+
+        private IEnumerable<string> MonthlyAccumulatedSalesOverUnderReportsToString(IEnumerable<OverUnderReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Monthly Accumulated Sales Over Or Under Original Asking Price Report...",
+                ""
+            };
+
+            return lines
+                .Concat(SalesOverUnderReportsToStringBoilderPlate(reports));
+        }
+
+        private IEnumerable<string> SalesOverUnderReportsToStringBoilderPlate(IEnumerable<OverUnderReportEntry> reports) {
+            var lines = new List<string>();
+            foreach (var overUnderReport in reports) {
+                var reportMessage = $"{OverUnderEnumToStringMap.GetOverUnderString(overUnderReport.OverOrUnderAsking)}, {overUnderReport.Count}";
                 lines.Add(reportMessage);
             }
 

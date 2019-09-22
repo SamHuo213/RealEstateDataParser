@@ -12,6 +12,7 @@ namespace SalesParser.Services {
         private readonly SalesDateReportService salesDateReportService;
         private readonly PricePointReportService pricePointReportService;
         private readonly SalByTypeReportService salByTypeReportService;
+        private readonly OverUnderReportService overUnderReportService;
 
         public BoardReportService() {
             cityReportService = new CityReportService();
@@ -19,6 +20,7 @@ namespace SalesParser.Services {
             salesDateReportService = new SalesDateReportService();
             pricePointReportService = new PricePointReportService();
             salByTypeReportService = new SalByTypeReportService();
+            overUnderReportService = new OverUnderReportService();
         }
 
         public BoardReport GenerateReports(
@@ -50,6 +52,7 @@ namespace SalesParser.Services {
                 SalesPricePointByCitiesReports = pricePointReportService.GetSoldPricePointByCityReports(filteredSoldUnitEntries),
                 SalesPricePointByTypeReports = pricePointReportService.GetSoldPricePointByTypeReports(filteredSoldUnitEntries),
                 SalesPricePointReports = pricePointReportService.GetSoldPricePointReports(filteredSoldUnitEntries),
+                SalesOverUnderReports = overUnderReportService.GetOverUnderReports(filteredSoldUnitEntries),
                 TotalSales = filteredSoldUnitEntries.Count(),
 
                 MonthlyAccumulatedCitySalesReports = cityReportService.GetCityReports(filteredMonthlyAccumulatedSoldUnitEntries),
@@ -58,6 +61,7 @@ namespace SalesParser.Services {
                 MonthlyAccumulatedSalesPricePointByCitiesReports = pricePointReportService.GetSoldPricePointByCityReports(filteredMonthlyAccumulatedSoldUnitEntries),
                 MonthlyAccumulatedSalesPricePointByTypeReports = pricePointReportService.GetSoldPricePointByTypeReports(filteredMonthlyAccumulatedSoldUnitEntries),
                 MonthlyAccumulatedSalesPricePointReports = pricePointReportService.GetSoldPricePointReports(filteredMonthlyAccumulatedSoldUnitEntries),
+                MonthlyAccumulatedSalesOverUnderReports = overUnderReportService.GetOverUnderReports(filteredMonthlyAccumulatedSoldUnitEntries),
                 MonthlyAccumulatedTotalSales = filteredMonthlyAccumulatedSoldUnitEntries.Count(),
 
                 InventoryCityReports = cityReportService.GetCityReports(filteredInventoryUnitEntires),
