@@ -1,5 +1,7 @@
-﻿using SalesParser.DataObjects;
+﻿using RealEstateDataParser.Services.ReportServices;
+using SalesParser.DataObjects;
 using SalesParser.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,15 +11,23 @@ namespace SalesParser.Services {
         private readonly PropertyTypeMixReportService propertyTypeMixReportService;
         private readonly SalesDateReportService salesDateReportService;
         private readonly PricePointReportService pricePointReportService;
+        private readonly SalByTypeReportService salByTypeReportService;
 
         public BoardReportService() {
             cityReportService = new CityReportService();
             propertyTypeMixReportService = new PropertyTypeMixReportService();
             salesDateReportService = new SalesDateReportService();
             pricePointReportService = new PricePointReportService();
+            salByTypeReportService = new SalByTypeReportService();
         }
 
-        public BoardReport GenerateReports(Board? board, IEnumerable<UnitEntry> soldUnitEntries, IEnumerable<UnitEntry> monthlyAccumulatedSoldUnitEntries, IEnumerable<UnitEntry> inventoryUnitEntries) {
+        public BoardReport GenerateReports(
+                Board? board,
+                IEnumerable<UnitEntry> soldUnitEntries,
+                IEnumerable<UnitEntry> monthlyAccumulatedSoldUnitEntries,
+                IEnumerable<UnitEntry> inventoryUnitEntries,
+                DateTime reportDate
+        ) {
             var filteredSoldUnitEntries = soldUnitEntries;
             var filteredMonthlyAccumulatedSoldUnitEntries = monthlyAccumulatedSoldUnitEntries;
             var filteredInventoryUnitEntires = inventoryUnitEntries;
@@ -33,7 +43,7 @@ namespace SalesParser.Services {
                     .Where(x => x.Board == board);
             }
 
-            return new BoardReport() {
+            var boardReport = new BoardReport() {
                 CitySalesReports = cityReportService.GetCityReports(filteredSoldUnitEntries),
                 SaleMixReports = propertyTypeMixReportService.GetPropertyTypeMixReports(filteredSoldUnitEntries),
                 SaleDateReports = salesDateReportService.GetSalesDateReports(filteredSoldUnitEntries),
@@ -57,6 +67,10 @@ namespace SalesParser.Services {
                 InventoryPricePointReports = pricePointReportService.GetInventoryPricePointReports(filteredInventoryUnitEntires),
                 TotalInventory = filteredInventoryUnitEntires.Count()
             };
+
+            boardReport.SalByTypeReports = salByTypeReportService.GetSalByTypeReports(boardReport.MonthlyAccumulatedSaleMixReports, boardReport.InventoryMixReports, reportDate);
+
+            return boardReport;
         }
     }
 }

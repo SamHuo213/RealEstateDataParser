@@ -1,4 +1,5 @@
-﻿using SalesParser.DataObjects;
+﻿using RealEstateDataParser.DataObjects;
+using SalesParser.DataObjects;
 using SalesParser.Enums;
 using SalesParser.Services;
 using System;
@@ -8,12 +9,12 @@ using System.Linq;
 namespace SalesParser {
     public class App {
         private readonly BoardReportService boardReportService;
-        private readonly FileService fileService;
+        private readonly UnitFileService fileService;
         private readonly UnitEntryParserService unitEntryParserService;
 
         public App() {
             boardReportService = new BoardReportService();
-            fileService = new FileService();
+            fileService = new UnitFileService();
             unitEntryParserService = new UnitEntryParserService();
         }
 
@@ -34,9 +35,10 @@ namespace SalesParser {
 
             var boards = (Board[])Enum.GetValues(typeof(Board));
             foreach (var board in boards.Where(x => x != Board.Unknown)) {
-                var boardReport = boardReportService.GenerateReports(board, soldUnitEntriesDo, monthlyAccumulatedsoldUnitEntriesDo, activeUnitEntriesDo);
+                var boardReport = boardReportService.GenerateReports(board, soldUnitEntriesDo, monthlyAccumulatedsoldUnitEntriesDo, activeUnitEntriesDo, reportDate);
 
-                var reportLines = InventoryCityReportsToString(boardReport.InventoryCityReports);
+                var reportLines = SalByTypeReportsToString(boardReport.SalByTypeReports);
+                reportLines = InventoryCityReportsToString(boardReport.InventoryCityReports).Concat(reportLines);
                 reportLines = InventoryMixReportsToString(boardReport.InventoryMixReports).Concat(reportLines);
                 reportLines = InventoryPricePointReportsByCityToString(boardReport.InventoryPricePointByCitiesReports).Concat(reportLines);
                 reportLines = InventoryPricePointReportsByTypeToString(boardReport.InventoryPricePointByTypeReports).Concat(reportLines);
@@ -62,6 +64,21 @@ namespace SalesParser {
 
                 fileService.WriteAllLines(reportDate, board.ToString(), reportLines);
             }
+        }
+
+        private IEnumerable<string> SalByTypeReportsToString(IEnumerable<SalByTypeReportEntry> reports) {
+            var lines = new List<string> {
+                "",
+                "...Sal by Type...",
+                ""
+            };
+
+            foreach (var report in reports) {
+                var reportMessage = $"{report.PropertyType}, {report.Sales}, {report.ProjectedSales}, {report.Inventory}, {report.Sal}, {report.SalPercentage}";
+                lines.Add(reportMessage);
+            }
+
+            return lines;
         }
 
         private IEnumerable<string> SalesCityReportsToString(IEnumerable<CityReportEntry> reports) {

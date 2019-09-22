@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RealEstateDataParser.DataObjects;
+using System.Collections.Generic;
 
 namespace SalesParser.DataObjects {
     public class BoardReport {
@@ -41,5 +42,7 @@ namespace SalesParser.DataObjects {
         public IEnumerable<PricePointReportEntry> InventoryPricePointReports { get; set; }
 
         public int TotalInventory { get; set; }
+
+        public IEnumerable<SalByTypeReportEntry> SalByTypeReports { get; set; }
     }
 }
