@@ -73,7 +73,8 @@ namespace SalesParser {
             var lines = new List<string> {
                 "",
                 "...Sal by Type...",
-                ""
+                "",
+                "Property Type, Sales, Project Sales, Inventory, Sal, Sal (%)"
             };
 
             foreach (var report in reports) {

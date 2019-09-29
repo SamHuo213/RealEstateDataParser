@@ -77,9 +77,10 @@ namespace RealEstateDataParser.Services.ReportServices {
 
         private static int GetBusinessDays(DateTime start, DateTime end, IEnumerable<int> holidays) {
             DateTime current = start;
-            DateTime inclusiveEnd = end.AddDays(1);
+            DateTime inclusiveEnd = end;
+
             var bussinessDayCount = 0;
-            while (current != inclusiveEnd) {
+            while (current <= inclusiveEnd) {
                 if (
                     current.DayOfWeek != DayOfWeek.Saturday
                     && current.DayOfWeek != DayOfWeek.Sunday
