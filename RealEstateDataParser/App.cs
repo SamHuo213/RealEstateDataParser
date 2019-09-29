@@ -78,7 +78,7 @@ namespace SalesParser {
             };
 
             foreach (var report in reports) {
-                var reportMessage = $"{report.PropertyType}, {report.Sales}, {report.ProjectedSales}, {report.Inventory}, {report.Sal}, {report.SalPercentage}";
+                var reportMessage = $"{report.PropertyType}, {report.Sales}, {report.ProjectedSales.ToString("0.##")}, {report.Inventory}, {report.Sal.ToString("0.###")}, {report.SalPercentage.ToString("0.##")}";
                 lines.Add(reportMessage);
             }
 

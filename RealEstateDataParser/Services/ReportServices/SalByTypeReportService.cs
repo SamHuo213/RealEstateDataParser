@@ -1,4 +1,5 @@
 ﻿using RealEstateDataParser.DataObjects;
+using RealEstateDataParser.Maps;
 using SalesParser.DataObjects;
 using System;
 using System.Collections.Generic;
@@ -19,19 +20,39 @@ namespace RealEstateDataParser.Services.ReportServices {
         ) {
             var types = accumulatedSalesTypeMix
                 .Concat(inventoryTypeMix)
-                .Select(x => x.PropertyType)
+                .Select(x => GetTransformedPropertyType(x.PropertyType))
                 .Distinct();
+
+            var transformedAccumulatedSalesTypeMix = accumulatedSalesTypeMix
+                .GroupBy(x => x.PropertyType = GetTransformedPropertyType(x.PropertyType))
+                .Select(x => new PropertyTypeMixReportEntry() {
+                    PropertyType = x.Key,
+                    Count = x.Sum(c => c.Count)
+                })
+                .OrderBy(x => x.PropertyType);
+
+            var transformedInventoryTypeMix = inventoryTypeMix
+                .GroupBy(x => x.PropertyType = GetTransformedPropertyType(x.PropertyType))
+                .Select(x => new PropertyTypeMixReportEntry() {
+                    PropertyType = x.Key,
+                    Count = x.Sum(c => c.Count)
+                })
+                .OrderBy(x => x.PropertyType);
 
             var salByTypeReports = new List<SalByTypeReportEntry>();
             foreach (var type in types) {
-                var sale = accumulatedSalesTypeMix.FirstOrDefault(x => x.PropertyType == type);
-                var inventory = inventoryTypeMix.FirstOrDefault(x => x.PropertyType == type);
+                var sale = transformedAccumulatedSalesTypeMix.FirstOrDefault(x => x.PropertyType == type);
+                var inventory = transformedInventoryTypeMix.FirstOrDefault(x => x.PropertyType == type);
 
                 salByTypeReports.Add(GetSalByTypeReportEntry(sale, inventory, date));
             }
 
             return salByTypeReports
                 .OrderBy(x => x.PropertyType);
+        }
+
+        private string GetTransformedPropertyType(string propertyType) {
+            return PropertyTypeKeyMap.GetSalPropertyTypeKey(propertyType);
         }
 
         private SalByTypeReportEntry GetSalByTypeReportEntry(PropertyTypeMixReportEntry sales, PropertyTypeMixReportEntry inventory, DateTime date) {

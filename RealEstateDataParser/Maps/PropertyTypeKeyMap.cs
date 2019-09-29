@@ -9,6 +9,12 @@ namespace RealEstateDataParser.Maps {
             { "house with acreage", "House" }
         };
 
+        public static readonly Dictionary<string, string> SalPropertyTypeToKeyMap = new Dictionary<string, string>() {
+            { "townhouse", "TownHouse" },
+            { "house", "House" },
+            { "apartment", "Apartment" }
+        };
+
         public static string GetPropertyTypeKey(string key) {
             var lowerCaseKey = key.ToLower();
             var keyExist = PropertyTypeToKeyMap.ContainsKey(lowerCaseKey);
@@ -17,6 +23,16 @@ namespace RealEstateDataParser.Maps {
             }
 
             return key;
+        }
+
+        public static string GetSalPropertyTypeKey(string key) {
+            var lowerCaseKey = key.ToLower();
+            var keyExist = SalPropertyTypeToKeyMap.ContainsKey(lowerCaseKey);
+            if (keyExist) {
+                return SalPropertyTypeToKeyMap[lowerCaseKey];
+            }
+
+            return "Everything else";
         }
     }
 }
