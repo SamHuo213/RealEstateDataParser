@@ -21,8 +21,8 @@ namespace RealEstateDataParser.Services.ReportServices {
             DateTime date
         ) {
             var types = GetTypes(accumulatedSalesTypeMix, inventoryTypeMix);
-            var transformedAccumulatedSalesTypeMix = GetTransformedPropertyTypeMixReportEntries(accumulatedSalesTypeMix);
-            var transformedInventoryTypeMix = GetTransformedPropertyTypeMixReportEntries(inventoryTypeMix);
+            var transformedAccumulatedSalesTypeMix = GetEntriesByCollapsedTypes(accumulatedSalesTypeMix);
+            var transformedInventoryTypeMix = GetEntriesByCollapsedTypes(inventoryTypeMix);
 
             var salByTypeReports = new List<SalByTypeReportEntry>();
             foreach (var type in types) {
@@ -47,8 +47,8 @@ namespace RealEstateDataParser.Services.ReportServices {
             return salByTypes;
         }
 
-        private IEnumerable<PropertyTypeMixReportEntry> GetTransformedPropertyTypeMixReportEntries(IEnumerable<PropertyTypeMixReportEntry> propertyTypeMixReportEntries) {
-            return propertyTypeMixReportEntries.GroupBy(x => x.PropertyType = GetTransformedPropertyType(x.PropertyType))
+        private IEnumerable<PropertyTypeMixReportEntry> GetEntriesByCollapsedTypes(IEnumerable<PropertyTypeMixReportEntry> propertyTypeMixReportEntries) {
+            return propertyTypeMixReportEntries.GroupBy(x => x.PropertyType = GetCollapsedPropertyType(x.PropertyType))
                 .Select(x => new PropertyTypeMixReportEntry() {
                     PropertyType = x.Key,
                     Count = x.Sum(c => c.Count)
@@ -59,7 +59,7 @@ namespace RealEstateDataParser.Services.ReportServices {
         private IEnumerable<string> GetTypes(IEnumerable<PropertyTypeMixReportEntry> accumulatedSalesTypeMix, IEnumerable<PropertyTypeMixReportEntry> inventoryTypeMix) {
             return accumulatedSalesTypeMix
                 .Concat(inventoryTypeMix)
-                .Select(x => GetTransformedPropertyType(x.PropertyType))
+                .Select(x => GetCollapsedPropertyType(x.PropertyType))
                 .Distinct();
         }
 
@@ -90,7 +90,7 @@ namespace RealEstateDataParser.Services.ReportServices {
             salByTypeReports.Add(GetSalByTypeReportEntry(sale, inventory, date));
         }
 
-        private string GetTransformedPropertyType(string propertyType) {
+        private string GetCollapsedPropertyType(string propertyType) {
             return PropertyTypeKeyMap.GetSalPropertyTypeKey(propertyType);
         }
 
