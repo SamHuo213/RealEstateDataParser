@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace RealEstateDataParser.Services {
-    public class BussinessDaysService {
+    public class BussinessDaysLookUpService {
         private class MonthlyBussinessDays {
             public int BusinessDays { get; set; }
             public IEnumerable<int> Holidays { get; set; }
@@ -40,7 +40,7 @@ namespace RealEstateDataParser.Services {
             }
         }
 
-        public BussinessDaysService() {
+        public BussinessDaysLookUpService() {
         }
 
         public int GetNumberOfBusinessDaysInMonth(int year, int month) {
