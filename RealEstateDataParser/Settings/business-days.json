@@ -46,8 +46,8 @@
 				"holidays": [12]
 			},
 			"december": {
-				"businessDays": 19,
-				"holidays": [25]
+				"businessDays": 17,
+				"holidays": [24,25,26,31]
 			}
 		},
 		"2019": {
@@ -96,8 +96,58 @@
 				"holidays": [11]
 			},
 			"december": {
+				"businessDays": 18,
+				"holidays": [24,25,26,31]
+			}
+		},
+		"2020": {
+			"january": {
+				"businessDays": 22,
+				"holidays": [1]
+			},
+			"february": {
+				"businessDays": 19,
+				"holidays": [17]
+			},
+			"march": {
+				"businessDays": 22,
+				"holidays": []
+			},
+			"april": {
+				"businessDays": 21,
+				"holidays": [10]
+			},
+			"may": {
 				"businessDays": 20,
-				"holidays": [25]
+				"holidays": [18]
+			},
+			"june": {
+				"businessDays": 22,
+				"holidays": []
+			},
+			"july": {
+				"businessDays": 22,
+				"holidays": [1]
+			},
+			"august": {
+				"businessDays": 20,
+				"holidays": [3]
+			},
+			"september": {
+				"businessDays": 21,
+				"holidays": [7]
+			},
+			"october": {
+				"businessDays": 21,
+				"holidays": [12]
+			},
+			"november": {
+				"businessDays": 20,
+				"holidays": [11]
+			},
+			"december": {
+				"businessDays": 19,
+				"holidays": [24,25,28,31]
 			}
 		}
 	}
