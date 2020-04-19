@@ -36,6 +36,12 @@ namespace SalesParser.DataObjects {
 
         public int MonthlyAccumulatedTotalSales { get; set; }
 
+        public int MonthlyAccumulatedTotalCancelProtected { get; set; }
+
+        public int MonthlyAccumulatedTotalTerminated { get; set; }
+
+        public int MonthlyAccumulatedTotalExpired { get; set; }
+
         public IEnumerable<CityReportEntry> InventoryCityReports { get; set; }
 
         public IEnumerable<PropertyTypeMixReportEntry> InventoryMixReports { get; set; }
@@ -47,6 +53,12 @@ namespace SalesParser.DataObjects {
         public IEnumerable<PricePointReportEntry> InventoryPricePointReports { get; set; }
 
         public int TotalInventory { get; set; }
+
+        public int TotalCancelProtected { get; set; }
+
+        public int TotalTerminated { get; set; }
+
+        public int TotalExpired { get; set; }
 
         public IEnumerable<SalByTypeReportEntry> SalByTypeReports { get; set; }
     }

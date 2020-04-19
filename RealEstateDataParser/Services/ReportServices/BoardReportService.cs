@@ -1,4 +1,5 @@
-﻿using RealEstateDataParser.Services.ReportServices;
+﻿using RealEstateDataParser.Enums;
+using RealEstateDataParser.Services.ReportServices;
 using SalesParser.DataObjects;
 using SalesParser.Enums;
 using System;
@@ -28,11 +29,15 @@ namespace SalesParser.Services {
                 Board? board,
                 IEnumerable<UnitEntry> soldUnitEntries,
                 IEnumerable<UnitEntry> monthlyAccumulatedSoldUnitEntries,
+                IEnumerable<UnitEntry> monthlyAccumulatedExpiredUnitEntriesDo,
+                IEnumerable<UnitEntry> expiredUnitEntriesDo,
                 IEnumerable<UnitEntry> inventoryUnitEntries,
                 DateTime reportDate
         ) {
             var filteredSoldUnitEntries = soldUnitEntries;
             var filteredMonthlyAccumulatedSoldUnitEntries = monthlyAccumulatedSoldUnitEntries;
+            var filteredMonthlyAccumulatedExpiredUnitEntriesDo = monthlyAccumulatedExpiredUnitEntriesDo;
+            var filteredExpiredUnitEntriesDo = expiredUnitEntriesDo;
             var filteredInventoryUnitEntires = inventoryUnitEntries;
 
             if ( board.HasValue ) {
@@ -40,6 +45,12 @@ namespace SalesParser.Services {
                     .Where(x => x.Board == board);
 
                 filteredMonthlyAccumulatedSoldUnitEntries = filteredMonthlyAccumulatedSoldUnitEntries
+                    .Where(x => x.Board == board);
+
+                filteredMonthlyAccumulatedExpiredUnitEntriesDo = filteredMonthlyAccumulatedExpiredUnitEntriesDo
+                    .Where(x => x.Board == board);
+
+                filteredExpiredUnitEntriesDo = filteredExpiredUnitEntriesDo
                     .Where(x => x.Board == board);
 
                 filteredInventoryUnitEntires = filteredInventoryUnitEntires
@@ -64,6 +75,14 @@ namespace SalesParser.Services {
                 MonthlyAccumulatedSalesPricePointReports = pricePointReportService.GetSoldPricePointReports(filteredMonthlyAccumulatedSoldUnitEntries),
                 MonthlyAccumulatedSalesOverUnderReports = overUnderReportService.GetOverUnderReports(filteredMonthlyAccumulatedSoldUnitEntries),
                 MonthlyAccumulatedTotalSales = filteredMonthlyAccumulatedSoldUnitEntries.Count(),
+
+                MonthlyAccumulatedTotalCancelProtected = filteredMonthlyAccumulatedExpiredUnitEntriesDo.Count(x => x.ListingStatus == ListingStatus.cancelProtected),
+                MonthlyAccumulatedTotalTerminated = filteredMonthlyAccumulatedExpiredUnitEntriesDo.Count(x => x.ListingStatus == ListingStatus.terminated),
+                MonthlyAccumulatedTotalExpired = filteredMonthlyAccumulatedExpiredUnitEntriesDo.Count(x => x.ListingStatus == ListingStatus.expired),
+
+                TotalCancelProtected = filteredExpiredUnitEntriesDo.Count(x => x.ListingStatus == ListingStatus.cancelProtected),
+                TotalTerminated = filteredExpiredUnitEntriesDo.Count(x => x.ListingStatus == ListingStatus.terminated),
+                TotalExpired = filteredExpiredUnitEntriesDo.Count(x => x.ListingStatus == ListingStatus.expired),
 
                 InventoryCityReports = cityReportService.GetCityReports(filteredInventoryUnitEntires),
                 InventoryMixReports = propertyTypeMixReportService.GetPropertyTypeMixReports(filteredInventoryUnitEntires),

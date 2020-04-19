@@ -32,13 +32,24 @@ namespace SalesParser {
         private void RunInternal(DateTime reportDate) {
             var allLines = fileService.ReadAllLines(reportDate);
             var soldUnitEntriesDo = unitEntryParserService.ParseSoldUnitEntries(allLines, reportDate);
-            var expiredUnitEntriesDo = unitEntryParserService.ParseExpiredEntries(allLines, reportDate);
             var monthlyAccumulatedsoldUnitEntriesDo = unitEntryParserService.ParseMontlyAccumulatedSoldUnitEntries(allLines, reportDate);
+
+            var expiredUnitEntriesDo = unitEntryParserService.ParseExpiredEntries(allLines, reportDate);
+            var monthlyAccumulatedExpiredUnitEntriesDo = unitEntryParserService.ParseMontlyExpiredUnitEntries(allLines, reportDate);
+
             var activeUnitEntriesDo = unitEntryParserService.ParseActiveUnitEntries(allLines);
 
             var boards = (Board[]) Enum.GetValues(typeof(Board));
             foreach ( var board in boards.Where(x => x != Board.Unknown) ) {
-                var boardReport = boardReportService.GenerateReports(board, soldUnitEntriesDo, monthlyAccumulatedsoldUnitEntriesDo, activeUnitEntriesDo, reportDate);
+                var boardReport = boardReportService.GenerateReports(
+                    board,
+                    soldUnitEntriesDo,
+                    monthlyAccumulatedsoldUnitEntriesDo,
+                    monthlyAccumulatedExpiredUnitEntriesDo,
+                    expiredUnitEntriesDo,
+                    activeUnitEntriesDo,
+                    reportDate
+                );
 
                 var reportLines = SalByTypeReportsToString(boardReport.SalByTypeReports);
                 reportLines = InventoryCityReportsToString(boardReport.InventoryCityReports).Concat(reportLines);
@@ -62,6 +73,9 @@ namespace SalesParser {
                 reportLines = SalesPricePointReportsByTypeToString(boardReport.SalesPricePointByTypeReports).Concat(reportLines);
                 reportLines = SalesPricePointReportsToString(boardReport.SalesPricePointReports).Concat(reportLines);
                 reportLines = SalesOverUnderReportsToString(boardReport.SalesOverUnderReports).Concat(reportLines);
+
+                reportLines = MonthlyAccumulatedExpiredString(boardReport.MonthlyAccumulatedTotalCancelProtected, boardReport.MonthlyAccumulatedTotalTerminated, boardReport.MonthlyAccumulatedTotalExpired).Concat(reportLines);
+                reportLines = TotalExpiredToString(boardReport.TotalCancelProtected, boardReport.TotalTerminated, boardReport.TotalExpired).Concat(reportLines);
 
                 reportLines = MonthlyAccumulatedSalesToString(boardReport.MonthlyAccumulatedTotalSales).Concat(reportLines);
                 reportLines = TotalSalesToString(boardReport.TotalSales).Concat(reportLines);
@@ -357,6 +371,30 @@ namespace SalesParser {
             }
 
             return lines;
+        }
+
+        private IEnumerable<string> MonthlyAccumulatedExpiredString(int totalCancelProtected, int totalTerminated, int totalExpired) {
+            return new List<string> {
+                "",
+                "...Monthly Expired...",
+                "",
+                $"Cancel Protected, {totalCancelProtected}",
+                $"Terminated, {totalTerminated}",
+                $"Expired, {totalExpired}",
+                $"Totals, {totalCancelProtected + totalTerminated + totalExpired}"
+            };
+        }
+
+        private IEnumerable<string> TotalExpiredToString(int totalCancelProtected, int totalTerminated, int totalExpired) {
+            return new List<string> {
+                "",
+                "...Total Expired...",
+                 "",
+                $"Cancel Protected, {totalCancelProtected}",
+                $"Terminated, {totalTerminated}",
+                $"Expired, {totalExpired}",
+                $"Totals, {totalCancelProtected + totalTerminated + totalExpired}"
+            };
         }
 
         private IEnumerable<string> TotalSalesToString(int totalSales) {

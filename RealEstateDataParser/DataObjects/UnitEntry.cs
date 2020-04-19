@@ -29,6 +29,6 @@ namespace SalesParser.DataObjects {
 
         public string RawData { get; set; }
 
-        public ListingStatus ListingStatus { get; set; }
+        public ListingStatus? ListingStatus { get; set; }
     }
 }

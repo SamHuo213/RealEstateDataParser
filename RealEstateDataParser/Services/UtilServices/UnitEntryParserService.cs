@@ -1,4 +1,5 @@
 ﻿using RealEstateDataParser.Enums;
+using RealEstateDataParser.Maps;
 using RealEstateDataParser.Services.UtilServices;
 using SalesParser.DataObjects;
 using SalesParser.Enums;
@@ -37,6 +38,16 @@ namespace SalesParser.Services {
             return ParseUnitEntriesBoilerPlate(
                 rawEntries,
                 listingStatus: ListingStatus.sold,
+                unitEntry =>
+                    filterDate?.Date.Month == unitEntry.ReportDate?.Month &&
+                    filterDate?.Date.Year == unitEntry.ReportDate?.Year
+                );
+        }
+
+        public IEnumerable<UnitEntry> ParseMontlyExpiredUnitEntries(IEnumerable<string> rawEntries, DateTime? filterDate = null) {
+            return ParseUnitEntriesBoilerPlate(
+                rawEntries,
+                listingStatus: null,
                 unitEntry =>
                     filterDate?.Date.Month == unitEntry.ReportDate?.Month &&
                     filterDate?.Date.Year == unitEntry.ReportDate?.Year
@@ -89,6 +100,12 @@ namespace SalesParser.Services {
                 return null;
             }
 
+            var hasStatus = entryArray.Length >= 140;
+            var entryListingStatus = listingStatus;
+            if ( hasStatus ) {
+                entryListingStatus = ListingStatusMap.GetListingStatusEnum(entryArray[139]);
+            }
+
             return new UnitEntry() {
                 MlsId = entryArray[0],
                 Address = entryArray[5],
@@ -101,6 +118,7 @@ namespace SalesParser.Services {
                 City = entryArray[134],
                 OwnershipInterest = entryArray[136],
                 Board = GetBoardFromRaw(entryArray[124]),
+                ListingStatus = entryListingStatus,
                 RawData = rawEntry
             };
         }
