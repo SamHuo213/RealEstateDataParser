@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SalesParser {
+
     public class App {
         private readonly BoardReportService boardReportService;
         private readonly UnitFileService fileService;
@@ -22,7 +23,7 @@ namespace SalesParser {
         public void Run(DateTime reportDate) {
             try {
                 RunInternal(reportDate);
-            } catch (Exception e) {
+            } catch ( Exception e ) {
                 var errorMessage = $"Failed message: {e.Message}";
                 Console.WriteLine(errorMessage);
             }
@@ -31,11 +32,12 @@ namespace SalesParser {
         private void RunInternal(DateTime reportDate) {
             var allLines = fileService.ReadAllLines(reportDate);
             var soldUnitEntriesDo = unitEntryParserService.ParseSoldUnitEntries(allLines, reportDate);
+            var expiredUnitEntriesDo = unitEntryParserService.ParseExpiredEntries(allLines, reportDate);
             var monthlyAccumulatedsoldUnitEntriesDo = unitEntryParserService.ParseMontlyAccumulatedSoldUnitEntries(allLines, reportDate);
             var activeUnitEntriesDo = unitEntryParserService.ParseActiveUnitEntries(allLines);
 
-            var boards = (Board[])Enum.GetValues(typeof(Board));
-            foreach (var board in boards.Where(x => x != Board.Unknown)) {
+            var boards = (Board[]) Enum.GetValues(typeof(Board));
+            foreach ( var board in boards.Where(x => x != Board.Unknown) ) {
                 var boardReport = boardReportService.GenerateReports(board, soldUnitEntriesDo, monthlyAccumulatedsoldUnitEntriesDo, activeUnitEntriesDo, reportDate);
 
                 var reportLines = SalByTypeReportsToString(boardReport.SalByTypeReports);
@@ -77,7 +79,7 @@ namespace SalesParser {
                 "Property Type, Sales, Project Sales, Inventory, Sal, Sal (%)"
             };
 
-            foreach (var report in reports) {
+            foreach ( var report in reports ) {
                 var reportMessage = $"{report.PropertyType}, {report.Sales}, {report.ProjectedSales.ToString("0.##")}, {report.Inventory}, {report.Sal.ToString("0.###")}, {report.SalPercentage.ToString("0.##")}";
                 lines.Add(reportMessage);
             }
@@ -120,7 +122,7 @@ namespace SalesParser {
 
         private IEnumerable<string> CityReportsToStringBoilerPlate(IEnumerable<CityReportEntry> reports) {
             var lines = new List<string>();
-            foreach (var report in reports) {
+            foreach ( var report in reports ) {
                 var reportMessage = $"{report.City}, {report.SaleCount}";
                 lines.Add(reportMessage);
             }
@@ -163,7 +165,7 @@ namespace SalesParser {
 
         private IEnumerable<string> PropertyTypeMixReportsToStringBoilerPlate(IEnumerable<PropertyTypeMixReportEntry> reports) {
             var lines = new List<string>();
-            foreach (var report in reports) {
+            foreach ( var report in reports ) {
                 var reportMessage = $"{report.PropertyType}, {report.Count}";
                 lines.Add(reportMessage);
             }
@@ -178,7 +180,7 @@ namespace SalesParser {
                 ""
             };
 
-            foreach (var report in reports) {
+            foreach ( var report in reports ) {
                 var reportMessage = $"{report.SaleDate}, {report.SaleCount}";
                 lines.Add(reportMessage);
             }
@@ -193,7 +195,7 @@ namespace SalesParser {
                 ""
             };
 
-            foreach (var report in reports) {
+            foreach ( var report in reports ) {
                 var reportMessage = $"{report.SaleDate}, {report.SaleCount}";
                 lines.Add(reportMessage);
             }
@@ -269,10 +271,10 @@ namespace SalesParser {
 
         private IEnumerable<string> PricePointReportsByCityToStringBoilerPlate(IEnumerable<PricePointByKeyReportEntry> reports) {
             var lines = new List<string>();
-            foreach (var cityReport in reports) {
+            foreach ( var cityReport in reports ) {
                 lines.Add(cityReport.Key);
                 lines.Add(" ");
-                foreach (var pricePointReport in cityReport.PricePointReports) {
+                foreach ( var pricePointReport in cityReport.PricePointReports ) {
                     var reportMessage = $"{pricePointReport.PricePoint}, {pricePointReport.Count}";
                     lines.Add(reportMessage);
                 }
@@ -317,7 +319,7 @@ namespace SalesParser {
 
         private IEnumerable<string> PricePointReportsToStringBoilerPlate(IEnumerable<PricePointReportEntry> reports) {
             var lines = new List<string>();
-            foreach (var pricePointReport in reports) {
+            foreach ( var pricePointReport in reports ) {
                 var reportMessage = $"{pricePointReport.PricePoint}, {pricePointReport.Count}";
                 lines.Add(reportMessage);
             }
@@ -349,7 +351,7 @@ namespace SalesParser {
 
         private IEnumerable<string> SalesOverUnderReportsToStringBoilderPlate(IEnumerable<OverUnderReportEntry> reports) {
             var lines = new List<string>();
-            foreach (var overUnderReport in reports) {
+            foreach ( var overUnderReport in reports ) {
                 var reportMessage = $"{OverUnderEnumToStringMap.GetOverUnderString(overUnderReport.OverOrUnderAsking)}, {overUnderReport.Count}";
                 lines.Add(reportMessage);
             }

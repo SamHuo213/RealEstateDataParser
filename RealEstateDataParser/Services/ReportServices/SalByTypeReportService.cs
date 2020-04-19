@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace RealEstateDataParser.Services.ReportServices {
+
     public class SalByTypeReportService {
         private readonly BussinessDaysLookUpService bussinessDaysLookUpService;
         private readonly string totalType = "Total";
@@ -25,7 +26,7 @@ namespace RealEstateDataParser.Services.ReportServices {
             var transformedInventoryTypeMix = GetEntriesByCollapsedTypes(inventoryTypeMix);
 
             var salByTypeReports = new List<SalByTypeReportEntry>();
-            foreach (var type in types) {
+            foreach ( var type in types ) {
                 AddSalByTypeReportEntry(
                     salByTypeReports,
                     transformedAccumulatedSalesTypeMix,
@@ -71,7 +72,7 @@ namespace RealEstateDataParser.Services.ReportServices {
             DateTime date
         ) {
             PropertyTypeMixReportEntry sale, inventory;
-            if (type == totalType) {
+            if ( type == totalType ) {
                 sale = accumulatedSalesTypeMix
                         .Aggregate((a, b) => new PropertyTypeMixReportEntry() {
                             PropertyType = totalType,
@@ -96,7 +97,7 @@ namespace RealEstateDataParser.Services.ReportServices {
 
         private SalByTypeReportEntry GetSalByTypeReportEntry(PropertyTypeMixReportEntry sales, PropertyTypeMixReportEntry inventory, DateTime date) {
             var newSalByTypeReportEntry = new SalByTypeReportEntry();
-            if (sales == null) {
+            if ( sales == null ) {
                 newSalByTypeReportEntry.PropertyType = inventory.PropertyType;
                 newSalByTypeReportEntry.Sales = 0;
                 newSalByTypeReportEntry.ProjectedSales = 0;
@@ -106,7 +107,7 @@ namespace RealEstateDataParser.Services.ReportServices {
                 newSalByTypeReportEntry.ProjectedSales = GetProjectedSales(sales.Count, date);
             }
 
-            if (inventory == null) {
+            if ( inventory == null ) {
                 newSalByTypeReportEntry.Inventory = 0;
             } else {
                 newSalByTypeReportEntry.Inventory = inventory.Count;
@@ -122,13 +123,13 @@ namespace RealEstateDataParser.Services.ReportServices {
             var monthlyBussinessDays = bussinessDaysLookUpService.GetNumberOfBusinessDaysInMonth(date.Year, date.Month);
             var holidays = bussinessDaysLookUpService.GetHolidaysInMonth(date.Year, date.Month);
             var bussinessDaysSoFar = BussinessDaysCalculatorService.GetBusinessDays(new DateTime(date.Year, date.Month, 1), date, holidays);
-            var salesAsDouble = (double)sales;
+            var salesAsDouble = (double) sales;
 
             return (salesAsDouble / bussinessDaysSoFar) * monthlyBussinessDays;
         }
 
         private double GetSal(double projectedSales, int inventory) {
-            if (inventory == 0) {
+            if ( inventory == 0 ) {
                 return 0;
             }
 

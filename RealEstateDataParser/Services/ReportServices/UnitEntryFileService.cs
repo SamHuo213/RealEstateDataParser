@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace SalesParser.Services {
+
     public class UnitFileService {
+
         public UnitFileService() {
         }
 

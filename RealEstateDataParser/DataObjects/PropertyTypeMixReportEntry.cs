@@ -1,4 +1,5 @@
 ﻿namespace SalesParser.DataObjects {
+
     public class PropertyTypeMixReportEntry {
         public string PropertyType { get; set; }
 

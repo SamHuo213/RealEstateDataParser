@@ -1,7 +1,9 @@
-﻿using SalesParser.Enums;
+﻿using RealEstateDataParser.Enums;
+using SalesParser.Enums;
 using System;
 
 namespace SalesParser.DataObjects {
+
     public class UnitEntry {
         public string MlsId { get; set; }
 
@@ -26,5 +28,7 @@ namespace SalesParser.DataObjects {
         public Board Board { get; set; }
 
         public string RawData { get; set; }
+
+        public ListingStatus ListingStatus { get; set; }
     }
 }

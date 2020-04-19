@@ -1,4 +1,5 @@
 ﻿namespace SalesParser.DataObjects {
+
     public class PricePointReportEntry {
         public string PricePoint { get; set; }
 

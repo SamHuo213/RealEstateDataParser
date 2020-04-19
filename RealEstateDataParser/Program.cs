@@ -2,7 +2,9 @@
 using System;
 
 namespace SalesParser {
+
     public class Program {
+
         private static void Main(string[] args) {
             var app = new App();
             SetMode(args);
@@ -10,12 +12,12 @@ namespace SalesParser {
         }
 
         private static DateTime GetReportDate(string[] args) {
-            if (args.Length == 0) {
+            if ( args.Length == 0 ) {
                 return DateTime.Now;
             }
 
             var reportDateString = args[0];
-            if (string.IsNullOrEmpty(reportDateString)) {
+            if ( string.IsNullOrEmpty(reportDateString) ) {
                 return DateTime.Now;
             }
 
@@ -24,12 +26,12 @@ namespace SalesParser {
         }
 
         private static void SetMode(string[] args) {
-            if (args.Length < 2) {
+            if ( args.Length < 2 ) {
                 return;
             }
 
             var mode = args[1];
-            if (!string.IsNullOrWhiteSpace(mode)) {
+            if ( !string.IsNullOrWhiteSpace(mode) ) {
                 ConfigurationService.Mode = mode;
             }
         }

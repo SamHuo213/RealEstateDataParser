@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace RealEstateDataParser.Services.ReportServices {
+
     public class OverUnderReportService {
+
         public OverUnderReportService() {
         }
 
@@ -22,9 +24,9 @@ namespace RealEstateDataParser.Services.ReportServices {
         }
 
         private OverUnder GetOverOrUnderKey(double soldPrice, double originalAskingPrice) {
-            if (soldPrice > originalAskingPrice) {
+            if ( soldPrice > originalAskingPrice ) {
                 return OverUnder.over;
-            } else if (soldPrice < originalAskingPrice) {
+            } else if ( soldPrice < originalAskingPrice ) {
                 return OverUnder.under;
             }
 

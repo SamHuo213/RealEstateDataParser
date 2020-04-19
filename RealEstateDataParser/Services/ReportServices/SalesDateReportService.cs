@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SalesParser.Services {
+
     public class SalesDateReportService {
+
         public SalesDateReportService() {
         }
 

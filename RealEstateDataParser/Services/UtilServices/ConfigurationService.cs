@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace RealEstateDataParser.Services {
+
     public static class ConfigurationService {
         private static Dictionary<string, string> configuration;
 
@@ -10,7 +11,7 @@ namespace RealEstateDataParser.Services {
 
         public static Dictionary<string, string> Configuration {
             get {
-                if (configuration == null) {
+                if ( configuration == null ) {
                     configuration = GetConfigurations();
                 }
 
@@ -20,7 +21,7 @@ namespace RealEstateDataParser.Services {
 
         private static Dictionary<string, string> GetConfigurations() {
             var settingFilePath = "appsettings.production.json";
-            if (Mode == "debug") {
+            if ( Mode == "debug" ) {
                 settingFilePath = Environment.GetEnvironmentVariable("debugSettingFilePath");
             }
 

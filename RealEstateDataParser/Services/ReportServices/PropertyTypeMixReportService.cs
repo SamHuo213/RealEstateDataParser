@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SalesParser.Services {
+
     public class PropertyTypeMixReportService {
+
         public PropertyTypeMixReportService() {
         }
 

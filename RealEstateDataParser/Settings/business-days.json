@@ -1,154 +1,154 @@
 {
-	"canada": {
-		"2018": {
-			"january": {
-				"businessDays": 22,
-				"holidays": [1]
-			},
-			"february": {
-				"businessDays": 20,
-				"holidays": [12]
-			},
-			"march": {
-				"businessDays": 21,
-				"holidays": [30]
-			},
-			"april": {
-				"businessDays": 20,
-				"holidays": []
-			},
-			"may": {
-				"businessDays": 22,
-				"holidays": [21]
-			},
-			"june": {
-				"businessDays": 21,
-				"holidays": []
-			},
-			"july": {
-				"businessDays": 21,
-				"holidays": [2]
-			},
-			"august": {
-				"businessDays": 22,
-				"holidays": [6]
-			},
-			"september": {
-				"businessDays": 17,
-				"holidays": [3]
-			},
-			"october": {
-				"businessDays": 22,
-				"holidays": [8]
-			},
-			"november": {
-				"businessDays": 21,
-				"holidays": [12]
-			},
-			"december": {
-				"businessDays": 17,
-				"holidays": [24,25,26,31]
-			}
-		},
-		"2019": {
-			"january": {
-				"businessDays": 22,
-				"holidays": [1]
-			},
-			"february": {
-				"businessDays": 20,
-				"holidays": [18]
-			},
-			"march": {
-				"businessDays": 21,
-				"holidays": []
-			},
-			"april": {
-				"businessDays": 20,
-				"holidays": [19]
-			},
-			"may": {
-				"businessDays": 22,
-				"holidays": [20]
-			},
-			"june": {
-				"businessDays": 20,
-				"holidays": []
-			},
-			"july": {
-				"businessDays": 22,
-				"holidays": [1]
-			},
-			"august": {
-				"businessDays": 21,
-				"holidays": [5]
-			},
-			"september": {
-				"businessDays": 20,
-				"holidays": [2]
-			},
-			"october": {
-				"businessDays": 22,
-				"holidays": [14]
-			},
-			"november": {
-				"businessDays": 20,
-				"holidays": [11]
-			},
-			"december": {
-				"businessDays": 18,
-				"holidays": [24,25,26,31]
-			}
-		},
-		"2020": {
-			"january": {
-				"businessDays": 22,
-				"holidays": [1]
-			},
-			"february": {
-				"businessDays": 19,
-				"holidays": [17]
-			},
-			"march": {
-				"businessDays": 22,
-				"holidays": []
-			},
-			"april": {
-				"businessDays": 21,
-				"holidays": [10]
-			},
-			"may": {
-				"businessDays": 20,
-				"holidays": [18]
-			},
-			"june": {
-				"businessDays": 22,
-				"holidays": []
-			},
-			"july": {
-				"businessDays": 22,
-				"holidays": [1]
-			},
-			"august": {
-				"businessDays": 20,
-				"holidays": [3]
-			},
-			"september": {
-				"businessDays": 21,
-				"holidays": [7]
-			},
-			"october": {
-				"businessDays": 21,
-				"holidays": [12]
-			},
-			"november": {
-				"businessDays": 20,
-				"holidays": [11]
-			},
-			"december": {
-				"businessDays": 19,
-				"holidays": [24,25,28,31]
-			}
-		}
-	}
+  "canada": {
+    "2018": {
+      "january": {
+        "businessDays": 22,
+        "holidays": [ 1 ]
+      },
+      "february": {
+        "businessDays": 20,
+        "holidays": [ 12 ]
+      },
+      "march": {
+        "businessDays": 21,
+        "holidays": [ 30 ]
+      },
+      "april": {
+        "businessDays": 20,
+        "holidays": []
+      },
+      "may": {
+        "businessDays": 22,
+        "holidays": [ 21 ]
+      },
+      "june": {
+        "businessDays": 21,
+        "holidays": []
+      },
+      "july": {
+        "businessDays": 21,
+        "holidays": [ 2 ]
+      },
+      "august": {
+        "businessDays": 22,
+        "holidays": [ 6 ]
+      },
+      "september": {
+        "businessDays": 17,
+        "holidays": [ 3 ]
+      },
+      "october": {
+        "businessDays": 22,
+        "holidays": [ 8 ]
+      },
+      "november": {
+        "businessDays": 21,
+        "holidays": [ 12 ]
+      },
+      "december": {
+        "businessDays": 17,
+        "holidays": [ 24, 25, 26, 31 ]
+      }
+    },
+    "2019": {
+      "january": {
+        "businessDays": 22,
+        "holidays": [ 1 ]
+      },
+      "february": {
+        "businessDays": 20,
+        "holidays": [ 18 ]
+      },
+      "march": {
+        "businessDays": 21,
+        "holidays": []
+      },
+      "april": {
+        "businessDays": 20,
+        "holidays": [ 19 ]
+      },
+      "may": {
+        "businessDays": 22,
+        "holidays": [ 20 ]
+      },
+      "june": {
+        "businessDays": 20,
+        "holidays": []
+      },
+      "july": {
+        "businessDays": 22,
+        "holidays": [ 1 ]
+      },
+      "august": {
+        "businessDays": 21,
+        "holidays": [ 5 ]
+      },
+      "september": {
+        "businessDays": 20,
+        "holidays": [ 2 ]
+      },
+      "october": {
+        "businessDays": 22,
+        "holidays": [ 14 ]
+      },
+      "november": {
+        "businessDays": 20,
+        "holidays": [ 11 ]
+      },
+      "december": {
+        "businessDays": 18,
+        "holidays": [ 24, 25, 26, 31 ]
+      }
+    },
+    "2020": {
+      "january": {
+        "businessDays": 22,
+        "holidays": [ 1 ]
+      },
+      "february": {
+        "businessDays": 19,
+        "holidays": [ 17 ]
+      },
+      "march": {
+        "businessDays": 22,
+        "holidays": []
+      },
+      "april": {
+        "businessDays": 21,
+        "holidays": [ 10 ]
+      },
+      "may": {
+        "businessDays": 20,
+        "holidays": [ 18 ]
+      },
+      "june": {
+        "businessDays": 22,
+        "holidays": []
+      },
+      "july": {
+        "businessDays": 22,
+        "holidays": [ 1 ]
+      },
+      "august": {
+        "businessDays": 20,
+        "holidays": [ 3 ]
+      },
+      "september": {
+        "businessDays": 21,
+        "holidays": [ 7 ]
+      },
+      "october": {
+        "businessDays": 21,
+        "holidays": [ 12 ]
+      },
+      "november": {
+        "businessDays": 20,
+        "holidays": [ 11 ]
+      },
+      "december": {
+        "businessDays": 19,
+        "holidays": [ 24, 25, 28, 31 ]
+      }
+    }
+  }
 }

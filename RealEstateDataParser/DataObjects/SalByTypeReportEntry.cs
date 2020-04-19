@@ -1,4 +1,5 @@
 ﻿namespace RealEstateDataParser.DataObjects {
+
     public class SalByTypeReportEntry {
         public string PropertyType { get; set; }
 

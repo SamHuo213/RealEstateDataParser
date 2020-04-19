@@ -1,10 +1,13 @@
-﻿using SalesParser.DataObjects;
+﻿using RealEstateDataParser.Enums;
+using RealEstateDataParser.Services.UtilServices;
+using SalesParser.DataObjects;
 using SalesParser.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 
 namespace SalesParser.Services {
+
     public class UnitEntryParserService {
         private const string UpdatedString = "updated";
         private const int EntryPropertyCount = 138;
@@ -17,15 +20,23 @@ namespace SalesParser.Services {
         public IEnumerable<UnitEntry> ParseSoldUnitEntries(IEnumerable<string> rawEntries, DateTime? filterDate = null) {
             return ParseUnitEntriesBoilerPlate(
                 rawEntries,
-                parseSold: true,
+                listingStatus: ListingStatus.sold,
                 unitEntry => filterDate?.Date == unitEntry.ReportDate
-                );
+            );
+        }
+
+        public IEnumerable<UnitEntry> ParseExpiredEntries(IEnumerable<string> rawEntries, DateTime? filterDate = null) {
+            return ParseUnitEntriesBoilerPlate(
+                rawEntries,
+                listingStatus: null,
+                unitEntry => filterDate?.Date == unitEntry.ReportDate
+            );
         }
 
         public IEnumerable<UnitEntry> ParseMontlyAccumulatedSoldUnitEntries(IEnumerable<string> rawEntries, DateTime? filterDate = null) {
             return ParseUnitEntriesBoilerPlate(
                 rawEntries,
-                parseSold: true,
+                listingStatus: ListingStatus.sold,
                 unitEntry =>
                     filterDate?.Date.Month == unitEntry.ReportDate?.Month &&
                     filterDate?.Date.Year == unitEntry.ReportDate?.Year
@@ -35,29 +46,29 @@ namespace SalesParser.Services {
         public IEnumerable<UnitEntry> ParseActiveUnitEntries(IEnumerable<string> rawEntries) {
             return ParseUnitEntriesBoilerPlate(
                 rawEntries,
-                parseSold: false,
+                listingStatus: ListingStatus.active,
                 unitEntry => true
-                );
+            );
         }
 
-        private IEnumerable<UnitEntry> ParseUnitEntriesBoilerPlate(IEnumerable<string> rawEntries, bool parseSold, FilterPredicate filterPredicate) {
+        private IEnumerable<UnitEntry> ParseUnitEntriesBoilerPlate(IEnumerable<string> rawEntries, ListingStatus? listingStatus, FilterPredicate filterPredicate) {
             var processedEntries = new List<UnitEntry>();
-            foreach (var entry in rawEntries) {
-                if (string.IsNullOrEmpty(entry)) {
+            foreach ( var entry in rawEntries ) {
+                if ( string.IsNullOrEmpty(entry) ) {
                     continue;
                 }
 
                 var firstWord = entry.Substring(0, 7).ToLower();
-                if (firstWord == UpdatedString) {
+                if ( firstWord == UpdatedString ) {
                     continue;
                 }
 
-                var unitEntry = ParseUnitEntry(entry, parseSold);
-                if (unitEntry == null) {
+                var unitEntry = ParseUnitEntry(entry, listingStatus);
+                if ( unitEntry == null ) {
                     continue;
                 }
 
-                if (!filterPredicate(unitEntry)) {
+                if ( !filterPredicate(unitEntry) ) {
                     continue;
                 }
 
@@ -67,16 +78,14 @@ namespace SalesParser.Services {
             return processedEntries;
         }
 
-        private UnitEntry ParseUnitEntry(string rawEntry, bool parseSold) {
+        private UnitEntry ParseUnitEntry(string rawEntry, ListingStatus? listingStatus) {
             var entryArray = rawEntry.Split("\t");
-            if (entryArray.Length < EntryPropertyCount) {
+            if ( entryArray.Length < EntryPropertyCount ) {
                 return null;
             }
 
-            var soldDateString = entryArray[33];
-            if (parseSold && string.IsNullOrEmpty(soldDateString)) {
-                return null;
-            } else if (!parseSold && !string.IsNullOrEmpty(soldDateString)) {
+            var correctListingStatus = ListingStatusValidationService.ListingStatusIsCorrect(entryArray, listingStatus);
+            if ( !correctListingStatus ) {
                 return null;
             }
 
@@ -97,7 +106,7 @@ namespace SalesParser.Services {
         }
 
         private double? GetSoldPrice(string soldPrice) {
-            if (string.IsNullOrEmpty(soldPrice)) {
+            if ( string.IsNullOrEmpty(soldPrice) ) {
                 return null;
             }
 
@@ -105,11 +114,11 @@ namespace SalesParser.Services {
         }
 
         private Board GetBoardFromRaw(string boardString) {
-            if (boardString.ToLower() == "v") {
+            if ( boardString.ToLower() == "v" ) {
                 return Board.GreaterVancouver;
-            } else if (boardString.ToLower() == "f") {
+            } else if ( boardString.ToLower() == "f" ) {
                 return Board.FraserVally;
-            } else if (boardString.ToLower() == "h") {
+            } else if ( boardString.ToLower() == "h" ) {
                 return Board.Chilliwack;
             }
 
@@ -117,7 +126,7 @@ namespace SalesParser.Services {
         }
 
         private DateTime? GetDate(string dateTimeString) {
-            if (string.IsNullOrEmpty(dateTimeString)) {
+            if ( string.IsNullOrEmpty(dateTimeString) ) {
                 return null;
             }
 

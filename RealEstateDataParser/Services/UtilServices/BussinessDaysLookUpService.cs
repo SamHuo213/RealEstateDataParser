@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 
 namespace RealEstateDataParser.Services {
+
     public class BussinessDaysLookUpService {
+
         private class MonthlyBussinessDays {
             public int BusinessDays { get; set; }
             public IEnumerable<int> Holidays { get; set; }
@@ -27,7 +29,7 @@ namespace RealEstateDataParser.Services {
 
         private Dictionary<string, Dictionary<string, Dictionary<string, MonthlyBussinessDays>>> BussinessObject {
             get {
-                if (bussinessObject == null) {
+                if ( bussinessObject == null ) {
                     var jsonString = FileService.ReadAllText(ConfigurationService.Configuration["businessDaysFile"]);
                     bussinessObject = JsonConvert.DeserializeObject<
                         Dictionary<string,

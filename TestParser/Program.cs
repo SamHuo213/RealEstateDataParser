@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 
 namespace TestParser {
+
     public class Program {
+
         public class ErrorClass {
             public int code;
         }
@@ -16,7 +18,7 @@ namespace TestParser {
 
         private static IEnumerable<string> ConvertToDesiredFormat(IEnumerable<IEnumerable<string>> rows) {
             var formatedReturn = new List<string>();
-            foreach (var row in rows) {
+            foreach ( var row in rows ) {
                 var newRow = string.Join("\t", row);
                 formatedReturn.Add(newRow);
             }
@@ -26,11 +28,11 @@ namespace TestParser {
 
         public static void Main() {
             IEnumerable<string> outputFile = new List<string>();
-            foreach (string file in Directory.EnumerateFiles(Path.Combine("Data"), "*.txt")) {
-                using (var reader = new StreamReader(file)) {
+            foreach ( string file in Directory.EnumerateFiles(Path.Combine("Data"), "*.txt") ) {
+                using ( var reader = new StreamReader(file) ) {
                     string test = reader.ReadToEnd();
                     var test2 = JsonConvert.DeserializeObject<TestClass>(test);
-                    if (test2.rows.First().Count() < 138) {
+                    if ( test2.rows.First().Count() < 138 ) {
                         continue;
                     }
 

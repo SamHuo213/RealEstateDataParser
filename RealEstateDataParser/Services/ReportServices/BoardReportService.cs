@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SalesParser.Services {
+
     public class BoardReportService {
         private readonly CityReportService cityReportService;
         private readonly PropertyTypeMixReportService propertyTypeMixReportService;
@@ -34,7 +35,7 @@ namespace SalesParser.Services {
             var filteredMonthlyAccumulatedSoldUnitEntries = monthlyAccumulatedSoldUnitEntries;
             var filteredInventoryUnitEntires = inventoryUnitEntries;
 
-            if (board.HasValue) {
+            if ( board.HasValue ) {
                 filteredSoldUnitEntries = filteredSoldUnitEntries
                     .Where(x => x.Board == board);
 

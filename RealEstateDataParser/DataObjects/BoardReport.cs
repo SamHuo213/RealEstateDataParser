@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 namespace SalesParser.DataObjects {
+
     public class BoardReport {
         public IEnumerable<CityReportEntry> CitySalesReports { get; set; }
 
