@@ -74,15 +74,27 @@ namespace RealEstateDataParser.Services.ReportServices {
             PropertyTypeMixReportEntry sale, inventory;
             if ( type == totalType ) {
                 sale = accumulatedSalesTypeMix
-                        .Aggregate((a, b) => new PropertyTypeMixReportEntry() {
-                            PropertyType = totalType,
-                            Count = a.Count + b.Count
-                        });
+                        .Aggregate(
+                            new PropertyTypeMixReportEntry() {
+                                PropertyType = totalType,
+                                Count = 0
+                            },
+                            (a, b) => new PropertyTypeMixReportEntry() {
+                                PropertyType = totalType,
+                                Count = a.Count + b.Count
+                            }
+                        );
                 inventory = inventoryTypeMix
-                        .Aggregate((a, b) => new PropertyTypeMixReportEntry() {
-                            PropertyType = totalType,
-                            Count = a.Count + b.Count
-                        });
+                        .Aggregate(
+                            new PropertyTypeMixReportEntry() {
+                                PropertyType = totalType,
+                                Count = 0
+                            },
+                            (a, b) => new PropertyTypeMixReportEntry() {
+                                PropertyType = totalType,
+                                Count = a.Count + b.Count
+                            }
+                        );
             } else {
                 sale = accumulatedSalesTypeMix.FirstOrDefault(x => x.PropertyType == type);
                 inventory = inventoryTypeMix.FirstOrDefault(x => x.PropertyType == type);
