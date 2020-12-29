@@ -149,6 +149,56 @@
         "businessDays": 19,
         "holidays": [ 24, 25, 28, 31 ]
       }
+    },
+    "2021": {
+      "january": {
+        "businessDays": 20,
+        "holidays": [ 1 ]
+      },
+      "february": {
+        "businessDays": 19,
+        "holidays": [ 15 ]
+      },
+      "march": {
+        "businessDays": 23,
+        "holidays": []
+      },
+      "april": {
+        "businessDays": 21,
+        "holidays": [ 2 ]
+      },
+      "may": {
+        "businessDays": 20,
+        "holidays": [ 24 ]
+      },
+      "june": {
+        "businessDays": 22,
+        "holidays": []
+      },
+      "july": {
+        "businessDays": 21,
+        "holidays": [ 1 ]
+      },
+      "august": {
+        "businessDays": 21,
+        "holidays": [ 2 ]
+      },
+      "september": {
+        "businessDays": 21,
+        "holidays": [ 6 ]
+      },
+      "october": {
+        "businessDays": 20,
+        "holidays": [ 11 ]
+      },
+      "november": {
+        "businessDays": 22,
+        "holidays": [ 11 ]
+      },
+      "december": {
+        "businessDays": 21,
+        "holidays": [ 25, 26, 27, 31 ]
+      }
     }
   }
 }

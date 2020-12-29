@@ -4,14 +4,14 @@ namespace RealEstateDataParser.Maps {
 
     public class PropertyTypeKeyMap {
 
-        public static readonly Dictionary<string, string> PropertyTypeToKeyMap = new Dictionary<string, string>() {
+        private static readonly Dictionary<string, string> PropertyTypeToKeyMap = new Dictionary<string, string>() {
             { "1/2 duplex", "TownHouse" },
             { "townhouse", "TownHouse" },
             { "house", "House" },
             { "house with acreage", "House" }
         };
 
-        public static readonly Dictionary<string, string> SalPropertyTypeToKeyMap = new Dictionary<string, string>() {
+        private static readonly Dictionary<string, string> SalPropertyTypeToKeyMap = new Dictionary<string, string>() {
             { "townhouse", "TownHouse" },
             { "house", "House" },
             { "apartment", "Apartment" }

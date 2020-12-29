@@ -1,5 +1,6 @@
 ﻿using RealEstateDataParser.DataObjects;
 using RealEstateDataParser.Maps;
+using RealEstateDataParser.Services.UtilServices;
 using SalesParser.DataObjects;
 using SalesParser.Enums;
 using SalesParser.Services;
@@ -31,13 +32,21 @@ namespace SalesParser {
 
         private void RunInternal(DateTime reportDate) {
             var allLines = fileService.ReadAllLines(reportDate);
+
             var soldUnitEntriesDo = unitEntryParserService.ParseSoldUnitEntries(allLines, reportDate);
+            soldUnitEntriesDo = PropertyTypeFilterService.GetParsedUnitEntries(soldUnitEntriesDo);
+
             var monthlyAccumulatedsoldUnitEntriesDo = unitEntryParserService.ParseMontlyAccumulatedSoldUnitEntries(allLines, reportDate);
+            monthlyAccumulatedsoldUnitEntriesDo = PropertyTypeFilterService.GetParsedUnitEntries(monthlyAccumulatedsoldUnitEntriesDo);
 
             var expiredUnitEntriesDo = unitEntryParserService.ParseExpiredEntries(allLines, reportDate);
+            expiredUnitEntriesDo = PropertyTypeFilterService.GetParsedUnitEntries(expiredUnitEntriesDo);
+
             var monthlyAccumulatedExpiredUnitEntriesDo = unitEntryParserService.ParseMontlyExpiredUnitEntries(allLines, reportDate);
+            monthlyAccumulatedExpiredUnitEntriesDo = PropertyTypeFilterService.GetParsedUnitEntries(monthlyAccumulatedExpiredUnitEntriesDo);
 
             var activeUnitEntriesDo = unitEntryParserService.ParseActiveUnitEntries(allLines);
+            activeUnitEntriesDo = PropertyTypeFilterService.GetParsedUnitEntries(activeUnitEntriesDo);
 
             var boards = (Board[]) Enum.GetValues(typeof(Board));
             foreach ( var board in boards.Where(x => x != Board.Unknown) ) {
